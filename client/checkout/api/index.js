@@ -103,15 +103,15 @@ export default class WCPayAPI {
 	}
 
 	/**
-	 * Load Stripe for payment request button.
+	 * Load Stripe for Express Checkout with the merchant’s connected account.
 	 *
-	 * @param {boolean}  forceAccountRequest True to instantiate the Stripe object with the merchant's account key.
 	 * @return {Promise} Promise with the Stripe object or an error.
 	 */
-	loadStripe( forceAccountRequest = false ) {
+	loadStripeForExpressCheckout() {
 		return new Promise( ( resolve ) => {
 			try {
-				resolve( this.getStripe( forceAccountRequest ) );
+				// Force Stripe to be loadded with the connected account.
+				resolve( this.getStripe( true ) );
 			} catch ( error ) {
 				// In order to avoid showing console error publicly to users,
 				// we resolve instead of rejecting when there is an error.
@@ -125,10 +125,10 @@ export default class WCPayAPI {
 	 * and displays the intent confirmation modal (if needed).
 	 *
 	 * @param {string} redirectUrl The redirect URL, returned from the server.
-	 * @param {string} paymentMethodToSave The ID of a Payment Method if it should be saved (optional).
+	 * @param {boolean} shouldSavePaymentMethod Whether the payment method should be saved.
 	 * @return {Promise<string>|boolean} A redirect URL on success, or `true` if no confirmation is needed.
 	 */
-	confirmIntent( redirectUrl, paymentMethodToSave ) {
+	confirmIntent( redirectUrl, shouldSavePaymentMethod = false ) {
 		const partials = redirectUrl.match(
 			/#wcpay-confirm-(pi|si):(.+):(.+):(.+)$/
 		);
@@ -219,7 +219,9 @@ export default class WCPayAPI {
 						// order status call works when a guest user creates an account during checkout.
 						_ajax_nonce: nonce,
 						intent_id: intentId,
-						payment_method_id: paymentMethodToSave || null,
+						should_save_payment_method: shouldSavePaymentMethod
+							? 'true'
+							: 'false',
 					} );
 
 					return [ ajaxCall, result.error ];

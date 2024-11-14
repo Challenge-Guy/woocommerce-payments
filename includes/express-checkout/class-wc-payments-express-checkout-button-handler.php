@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Automattic\WooCommerce\Blocks\Package;
+use Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry;
 use WCPay\Fraud_Prevention\Fraud_Prevention_Service;
 
 /**
@@ -99,6 +101,10 @@ class WC_Payments_Express_Checkout_Button_Handler {
 		add_action( 'woocommerce_checkout_order_processed', [ $this->express_checkout_helper, 'add_order_payment_method_title' ], 10, 2 );
 
 		$this->express_checkout_ajax_handler->init();
+
+		if ( is_admin() && current_user_can( 'manage_woocommerce' ) ) {
+			$this->register_ece_data_for_block_editor();
+		}
 	}
 
 	/**
@@ -240,11 +246,12 @@ class WC_Payments_Express_Checkout_Button_Handler {
 				'pay_for_order'             => wp_create_nonce( 'pay_for_order' ),
 			],
 			'checkout'           => [
-				'currency_code'     => strtolower( get_woocommerce_currency() ),
-				'country_code'      => substr( get_option( 'woocommerce_default_country' ), 0, 2 ),
-				'needs_shipping'    => WC()->cart->needs_shipping(),
+				'currency_code'              => strtolower( get_woocommerce_currency() ),
+				'country_code'               => substr( get_option( 'woocommerce_default_country' ), 0, 2 ),
+				'needs_shipping'             => WC()->cart->needs_shipping(),
 				// Defaults to 'required' to match how core initializes this option.
-				'needs_payer_phone' => 'required' === get_option( 'woocommerce_checkout_phone_field', 'required' ),
+				'needs_payer_phone'          => 'required' === get_option( 'woocommerce_checkout_phone_field', 'required' ),
+				'allowed_shipping_countries' => array_keys( WC()->countries->get_shipping_countries() ?? [] ),
 			],
 			'button'             => $this->get_button_settings(),
 			'login_confirmation' => $this->get_login_confirmation_settings(),
@@ -445,5 +452,24 @@ class WC_Payments_Express_Checkout_Button_Handler {
 		}
 
 		return $title;
+	}
+
+	/**
+	 * Add ECE data to `wcSettings` to allow it to be accessed by the front-end JS script in the Block editor.
+	 *
+	 * @return void
+	 */
+	private function register_ece_data_for_block_editor() {
+		$data_registry = Package::container()->get( AssetDataRegistry::class );
+
+		if ( $data_registry->exists( 'ece_data' ) ) {
+			return;
+		}
+
+		$ece_data = [
+			'button' => $this->get_button_settings(),
+		];
+
+		$data_registry->add( 'ece_data', $ece_data );
 	}
 }

@@ -581,16 +581,32 @@ class WC_Payment_Gateway_WCPay extends WC_Payment_Gateway_CC {
 		$title = parent::get_title();
 
 		if (
-			Payment_Method::CARD === $this->stripe_id &&
 			( is_checkout() || is_add_payment_method_page() ) &&
 			! isset( $_GET['change_payment_method'] )  // phpcs:ignore WordPress.Security.NonceVerification
 		) {
+			$test_mode_badge = '';
 			if ( WC_Payments::mode()->is_test() ) {
 				$test_mode_badge = '<span class="test-mode badge">' . __( 'Test Mode', 'woocommerce-payments' ) . '</span>';
-			} else {
-				$test_mode_badge = '';
 			}
-			return '<div class="label-title-container"><span class="payment-method-title">&nbsp;' . $title . '</span>' . $test_mode_badge . '</div>';
+
+			$bnpl_messaging_container = '';
+			if ( $this->payment_method->is_bnpl() ) {
+				$bnpl_messaging_container = '<span id="stripe-pmme-container-' . $this->payment_method->get_id() . '" class="stripe-pmme-container"></span>';
+			}
+
+			// the "plain" payment method label is displayed on some sections of the app
+			// - like "pay for order" when a payment method is pre-selected or a payment has previously failed.
+			$html  = '<span class="woopayments-plain-payment-method-label">' . $title . '</span>';
+			$html .= '<div class="woopayments-rich-payment-method-label">';
+			$html .= '<div class="label-title-container">';
+			$html .= '<span class="payment-method-title">&nbsp;' . $title . '</span>';
+			$html .= $test_mode_badge;
+			$html .= '</div>';
+			$html .= $this->get_icon();
+			$html .= $bnpl_messaging_container;
+			$html .= '</div>';
+
+			return $html;
 		}
 
 		return $title;
@@ -892,6 +908,15 @@ class WC_Payment_Gateway_WCPay extends WC_Payment_Gateway_CC {
 	 */
 	public function is_saved_cards_enabled() {
 		return 'yes' === $this->get_option( 'saved_cards' );
+	}
+
+	/**
+	 * Checks if the setting to show the payment request buttons is enabled.
+	 *
+	 * @return bool Whether the setting to show the payment request buttons is enabled or not.
+	 */
+	public function is_payment_request_enabled() {
+		return 'yes' === $this->get_option( 'payment_request' );
 	}
 
 	/**
@@ -3222,12 +3247,18 @@ class WC_Payment_Gateway_WCPay extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * The get_icon() method from the WC_Payment_Gateway class wraps the icon URL into a prepared HTML element, but there are situations when this
-	 * element needs to be rendered differently on the UI (e.g. additional styles or `display` property).
+	 * Overriding the base method because the `alt` tag would otherwise output the markup returned by the `get_title()` method in this class - which we don't want.
 	 *
-	 * This is why we need a usual getter like this to provide a raw icon URL to the UI, which will render it according to particular requirements.
+	 * @return string
+	 */
+	public function get_icon() {
+		return '<img src="' . esc_url( WC_HTTPS::force_https_url( $this->get_theme_icon() ) ) . '" alt="' . esc_attr( $this->payment_method->get_title() ) . ' payment method logo" />';
+	}
+
+	/**
+	 * The URL for the current payment method's icon.
 	 *
-	 * @return string Returns the payment method icon URL.
+	 * @return string The payment method icon URL.
 	 */
 	public function get_icon_url() {
 		return $this->payment_method->get_icon();
@@ -3593,7 +3624,9 @@ class WC_Payment_Gateway_WCPay extends WC_Payment_Gateway_CC {
 				wc_reduce_stock_levels( $order_id );
 				WC()->cart->empty_cart();
 
-				if ( ! empty( $payment_method_id ) ) {
+				$is_subscription            = function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $order );
+				$should_save_payment_method = $is_subscription || ( isset( $_POST['should_save_payment_method'] ) && 'true' === $_POST['should_save_payment_method'] );
+				if ( $should_save_payment_method && ! empty( $payment_method_id ) ) {
 					try {
 						$token = $this->token_service->add_payment_method_to_user( $payment_method_id, wp_get_current_user() );
 						$this->add_token_to_order( $order, $token );

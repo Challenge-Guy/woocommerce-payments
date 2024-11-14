@@ -14,11 +14,11 @@ const targetFolder = 'release/' + pluginSlug;
 const filesToCopy = [
 	'assets',
 	'dist',
-	'includes',
 	'i18n',
+	'includes',
 	'languages',
-	'src',
 	'lib',
+	'src',
 	'templates',
 	'vendor',
 	'woocommerce-payments.php',
@@ -42,6 +42,10 @@ rm( 'dist/*.map' );
 
 // copy the directories to the release folder
 cp( '-Rf', filesToCopy, targetFolder );
+
+// The '/includes/multi-currency/client' directory is removed because '/includes/multi-currency/*' should contain only server-side files.
+// Furthermore, the './client' directory is already included in 'dist' during the build step.
+rm( '-rf', targetFolder + '/includes/multi-currency/client' );
 
 const output = fs.createWriteStream(
 	releaseFolder + '/' + pluginSlug + '.zip'
