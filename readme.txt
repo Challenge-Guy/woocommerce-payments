@@ -95,6 +95,8 @@ Please note that our support for the checkout block is still experimental and th
 == Changelog ==
 
 = 8.6.1 - 2024-12-17 =
+* Fix - Checkout: Fix error when wc_address_i18n_params does not have data for a given country
+* Fix - Skip mysqlcheck SSL Requirement during E2E environment setup
 
 
 = 8.6.0 - 2024-12-04 =
