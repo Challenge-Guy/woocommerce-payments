@@ -7,9 +7,7 @@ import React, { Fragment, useState } from 'react';
 import { uniq } from 'lodash';
 import { useDispatch } from '@wordpress/data';
 import { useMemo } from '@wordpress/element';
-import { dateI18n } from '@wordpress/date';
 import { __, _n, sprintf } from '@wordpress/i18n';
-import moment from 'moment';
 import {
 	TableCard,
 	Search,
@@ -55,7 +53,7 @@ import {
 	formatExplicitCurrency,
 	formatExportAmount,
 } from 'multi-currency/interface/functions';
-import { getChargeChannel } from 'utils/charge';
+import { getTransactionChannel } from 'utils/charge';
 import Deposit from './deposit';
 import ConvertedAmount from './converted-amount';
 import autocompleter from 'transactions/autocompleter';
@@ -70,6 +68,7 @@ import p24BankList from '../../payment-details/payment-method/p24/bank-list';
 import { HoverTooltip } from 'components/tooltip';
 import { PAYMENT_METHOD_TITLES } from 'wcpay/constants/payment-method';
 import { ReportingExportLanguageHook } from 'wcpay/settings/reporting-settings/interfaces';
+import { formatDateTimeFromString } from 'wcpay/utils/date-time';
 
 interface TransactionsListProps {
 	depositId?: string;
@@ -151,7 +150,7 @@ const getColumns = (
 	[
 		{
 			key: 'transaction_id',
-			label: __( 'Transaction Id', 'woocommerce-payments' ),
+			label: __( 'Transaction ID', 'woocommerce-payments' ),
 			visible: false,
 			isLeftAligned: true,
 		},
@@ -466,17 +465,16 @@ export const TransactionsList = (
 			date: {
 				value: txn.date,
 				display: clickable(
-					dateI18n(
-						'M j, Y / g:iA',
-						moment.utc( txn.date ).local().toISOString()
-					)
+					formatDateTimeFromString( txn.date, {
+						includeTime: true,
+					} )
 				),
 			},
 			channel: {
-				value: getChargeChannel( txn.channel ),
+				value: getTransactionChannel( txn.channel ),
 				display: clickable(
 					<Fragment>
-						{ getChargeChannel( txn.channel ) }
+						{ getTransactionChannel( txn.channel ) }
 						{ txn.source_device && getSourceDeviceIcon( txn ) }
 					</Fragment>
 				),
