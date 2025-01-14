@@ -112,6 +112,9 @@ You can read our Terms of Service and other policies [here](https://woocommerce.
 * Dev - Update the PHP version and the Xdebug version used in the E2E testing environment.
 * Dev - Update the Playwright Payment Gateways Confirmation spec and remove the Puppeteer Payment Gateways Confirmation spec.
 
+= 8.7.1 - 2025-01-14 =
+* Fix - Broaden billing field queries from form-scoped to document-scoped
+
 = 8.7.0 - 2024-12-25 =
 * Add - Add seller_message to failed order notes
 * Add - Add WooPay Klaviyo newsletter integration.
