@@ -95,6 +95,7 @@ Please note that our support for the checkout block is still experimental and th
 == Changelog ==
 
 = 8.7.1 - 2025-01-14 =
+* Fix - Broaden billing field queries from form-scoped to document-scoped
 
 
 = 8.7.0 - 2024-12-25 =
