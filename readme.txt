@@ -4,7 +4,7 @@ Tags: woocommerce payments, apple pay, credit card, google pay, payment, payment
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.3
-Stable tag: 8.7.1
+Stable tag: 8.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,11 +28,11 @@ Features previously only available on your payment provider’s website are now 
 
 **Pay as you go**
 
-WooPayments is **free to install**, with **no setup fees or monthly fees**. Pay-as-you-go fees start at 2.9% + $0.30 per transaction for U.S.-issued cards. [Read more about transaction fees](https://woocommerce.com/document/woopayments/fees-and-debits/fees/).
+WooPayments is **free to install**, with **no setup fees or monthly fees**. Our pay-as-you-go pricing model means we're incentivized to help you succeed! [Read more about transaction fees](https://woocommerce.com/document/woopayments/fees-and-debits/fees/).
 
 **Supported by the WooCommerce team**
 
-Our global support team is available to answer questions you may have about WooPayments installation, setup, or use. For assistance, [open a ticket on woocommerce.com](https://woocommerce.com/my-account/create-a-ticket/?select=5278104).
+Our global support team is available to answer questions you may have about WooPayments installation, setup, or use. For assistance, [open a ticket on woocommerce.com](https://woocommerce.com/my-account/contact-support/?select=5278104).
 
 == Getting Started ==
 
@@ -40,13 +40,11 @@ Our global support team is available to answer questions you may have about WooP
 
 * WordPress 6.0 or newer.
 * WooCommerce 7.6 or newer.
-* PHP 7.3 or newer is recommended.
+* PHP 7.3 or newer.
 
 = Try it now =
 
 To try WooPayments (previously WooCommerce Payments) on your store, simply [install it](https://wordpress.org/plugins/woocommerce-payments/#installation) and follow the prompts. Please see our [Startup Guide](https://woocommerce.com/document/woopayments/startup-guide/) for a full walkthrough of the process.
-
-WooPayments has experimental support for the Checkout block from [WooCommerce Blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/). Please check the [FAQ section](#faq) for more information.
 
 == Installation ==
 
@@ -56,13 +54,17 @@ Install and activate the WooCommerce and WooPayments plugins, if you haven't alr
 
 = What countries and currencies are supported? =
 
-If you are an individual or business based in [one of these countries](https://woocommerce.com/document/woopayments/compatibility/countries/#supported-countries), you can sign-up with WooPayments. After completing sign up, you can accept payments from customers anywhere in the world.
+If you are an individual or business based in [one of these countries](https://woocommerce.com/document/woopayments/compatibility/countries/#supported-countries), you can sign-up with WooPayments. After completing sign up, you can accept payments from customers anywhere in the world, as long as they are paying with [a supported currency](https://woocommerce.com/document/woopayments/currencies/available-currencies/).
 
 We are actively planning to expand into additional countries based on your interest. Let us know where you would like to [see WooPayments launch next](https://woocommerce.com/payments/#request-invite).
 
 = Why is a WordPress.com account and connection required? =
 
-WooPayments uses the WordPress.com connection to authenticate each request, connecting your store with our payments partner.
+WooPayments uses the WordPress.com connection to securely communicate with our payments server. This is necessary for WooPayments to function correctly, so it's not possible to use WooPayments without connecting. Please see [this document](https://woocommerce.com/document/woopayments/our-policies/connection/) for more information.
+
+Note that you do not need to host your site itself on WordPress.com, nor do you need to host *any* site on WordPress.com at all. You only need an account.
+
+Note that you do not need to host your site itself on WordPress.com. You only need an account on WordPress.com to establish the connection. You can create a WordPress.com account [at this link](https://wordpress.com/start/account/user-social).
 
 = How do I set up a store for a client? =
 
@@ -76,15 +78,6 @@ WooPayments is built in partnership with Stripe [Stripe](https://stripe.com/). W
 
 You can read our Terms of Service and other policies [here](https://woocommerce.com/document/woopayments/our-policies/).
 
-= How does the Checkout block work? =
-
-You need the [WooCommerce Blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) plugin to be installed and active to use the Checkout block. Once you add the block to a page, WooPayments will automatically appear as an option.
-
-Please note that our support for the checkout block is still experimental and the following features of the gateway will probably not work:
-
-* Using saved cards and saving cards.
-* Integration with WooCommerce Subscriptions.
-
 == Screenshots ==
 
 1. View Transactions
@@ -94,9 +87,33 @@ Please note that our support for the checkout block is still experimental and th
 
 == Changelog ==
 
+= 8.8.0 - 2025-01-15 =
+* Add - Allow transactions filtered by Payment Method.
+* Add - Falback terms and conditions for WooPay.
+* Fix - Broaden billing field queries from form-scoped to document-scoped.
+* Fix - Checkout: Make sure the font size for PMME is smaller than the labels.
+* Fix - Ensure consistent formatting of refund notes with MC.
+* Fix - Fix incompatibility with some bookings plugins.
+* Fix - Fix JS exception when ECE payment fails.
+* Fix - Fix transaction list sorting by payout currency.
+* Fix - Improve the mobile rendering of the Balances box within Payment Overview.
+* Fix - Update currency conversion method for booking products.
+* Fix - Update WordPress.org readme.txt file.
+* Fix - Upgrade `@woocommerce/csv-export` package to v1.10.0 – fixes unnecessary escaping of negative values in CSV exports that was preventing numerical analysis in spreadsheet applications.
+* Fix - Zero dollar subscriptions with zero dollar renewals checkout error.
+* Update - Bump stable tag for 8.7.0.
+* Update - Improve BNPL PMME and icon placement in shortcode checkout.
+* Update - Remove the overlay that announces the rename from deposits to payouts.
+* Update - Replaced the term "VAT" with "Tax" in Documents Listing Page.
+* Update - round to nearest lowest denominator instead of ceiling before applying currency rounding settings.
+* Dev - Add the Playwright Pay for Order spec and remove the equivalent Puppeteer spec.
+* Dev - Add type assertion for disputes CSV export response to ensure type safety and fix TypeScript error.
+* Dev - Update phpunit-watcher dev package version.
+* Dev - Update the PHP version and the Xdebug version used in the E2E testing environment.
+* Dev - Update the Playwright Payment Gateways Confirmation spec and remove the Puppeteer Payment Gateways Confirmation spec.
+
 = 8.7.1 - 2025-01-14 =
 * Fix - Broaden billing field queries from form-scoped to document-scoped
-
 
 = 8.7.0 - 2024-12-25 =
 * Add - Add seller_message to failed order notes
