@@ -418,6 +418,7 @@ class WC_Payments {
 		include_once __DIR__ . '/class-wc-payments-account.php';
 		include_once __DIR__ . '/class-wc-payments-customer-service.php';
 		include_once __DIR__ . '/class-logger.php';
+		include_once __DIR__ . '/class-logger-context.php';
 		include_once __DIR__ . '/class-session-rate-limiter.php';
 		include_once __DIR__ . '/class-wc-payment-gateway-wcpay.php';
 		include_once __DIR__ . '/class-wc-payments-checkout.php';
@@ -509,6 +510,8 @@ class WC_Payments {
 		include_once __DIR__ . '/compat/multi-currency/wc-payments-multi-currency.php';
 		include_once __DIR__ . '/compat/multi-currency/class-wc-payments-currency-manager.php';
 		include_once __DIR__ . '/class-duplicates-detection-service.php';
+
+		wcpay_get_container()->get( \WCPay\Internal\LoggerContext::class )->init_hooks();
 
 		self::$woopay_checkout_service = new Checkout_Service();
 		self::$woopay_checkout_service->init();
@@ -667,7 +670,7 @@ class WC_Payments {
 		require_once __DIR__ . '/migrations/class-link-woopay-mutual-exclusion-handler.php';
 		require_once __DIR__ . '/migrations/class-gateway-settings-sync.php';
 		require_once __DIR__ . '/migrations/class-delete-active-woopay-webhook.php';
-		require_once __DIR__ . '/migrations/class-giropay-deprecation-settings-update.php';
+		require_once __DIR__ . '/migrations/class-payment-method-deprecation-settings-update.php';
 		require_once __DIR__ . '/migrations/class-erase-bnpl-announcement-meta.php';
 		require_once __DIR__ . '/migrations/class-erase-deprecated-flags-and-options.php';
 		require_once __DIR__ . '/migrations/class-manual-capture-payment-method-settings-update.php';
@@ -678,7 +681,8 @@ class WC_Payments {
 		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Link_WooPay_Mutual_Exclusion_Handler( self::get_gateway() ), 'maybe_migrate' ] );
 		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Gateway_Settings_Sync( self::get_gateway(), self::get_payment_gateway_map() ), 'maybe_sync' ] );
 		add_action( 'woocommerce_woocommerce_payments_updated', [ '\WCPay\Migrations\Delete_Active_WooPay_Webhook', 'maybe_delete' ] );
-		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Giropay_Deprecation_Settings_Update( self::get_gateway(), self::get_payment_gateway_map() ), 'maybe_migrate' ] );
+		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Payment_Method_Deprecation_Settings_Update( self::get_gateway(), self::get_payment_gateway_map(), Giropay_Payment_Method::PAYMENT_METHOD_STRIPE_ID, '7.9.0' ), 'maybe_migrate' ] );
+		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Payment_Method_Deprecation_Settings_Update( self::get_gateway(), self::get_payment_gateway_map(), Sofort_Payment_Method::PAYMENT_METHOD_STRIPE_ID, '8.9.0' ), 'maybe_migrate' ] );
 		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Erase_Bnpl_Announcement_Meta(), 'maybe_migrate' ] );
 		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Erase_Deprecated_Flags_And_Options(), 'maybe_migrate' ] );
 		add_action( 'woocommerce_woocommerce_payments_updated', [ new \WCPay\Migrations\Manual_Capture_Payment_Method_Settings_Update( self::get_gateway(), self::get_payment_gateway_map() ), 'maybe_migrate' ] );
@@ -827,29 +831,16 @@ class WC_Payments {
 	public static function register_gateway( $gateways ) {
 		$payment_methods = array_keys( self::get_payment_method_map() );
 
-		$gateways[]       = self::$card_gateway;
-		$all_gateways     = [];
-		$reusable_methods = [];
+		$gateways[] = self::$card_gateway;
 		foreach ( $payment_methods as $payment_method_id ) {
 			if ( 'card' === $payment_method_id || 'link' === $payment_method_id ) {
 				continue;
 			}
-			$gateway        = self::get_payment_gateway_by_id( $payment_method_id );
-			$payment_method = self::get_payment_method_by_id( $payment_method_id );
 
-			if ( $payment_method->is_reusable() ) {
-				$reusable_methods[] = $gateway;
-			}
-
-			$all_gateways[] = $gateway;
-
+			$gateways[] = self::get_payment_gateway_by_id( $payment_method_id );
 		}
 
-		if ( is_add_payment_method_page() ) {
-			return array_merge( $gateways, $reusable_methods );
-		}
-
-		return array_merge( $gateways, $all_gateways );
+		return $gateways;
 	}
 
 	/**
@@ -918,7 +909,9 @@ class WC_Payments {
 	}
 
 	/**
-	 * Adds fields so that we can store inbox notifications last read and open times.
+	 * Define fields for storing user preferences in the wp_usermeta table.
+	 *
+	 * Includes fields for inbox notifications and table column visibility.
 	 *
 	 * @param array $user_data_fields User data fields.
 	 * @return array
@@ -926,7 +919,19 @@ class WC_Payments {
 	public static function add_user_data_fields( $user_data_fields ) {
 		return array_merge(
 			$user_data_fields,
-			[ 'wc_payments_overview_inbox_last_read' ]
+			[
+				// Inbox notifications.
+				'wc_payments_overview_inbox_last_read',
+
+				// Column visibility preferences.
+				'wc_payments_transactions_hidden_columns',
+				'wc_payments_transactions_blocked_hidden_columns',
+				'wc_payments_transactions_risk_review_hidden_columns',
+				'wc_payments_transactions_uncaptured_hidden_columns',
+				'wc_payments_payouts_hidden_columns',
+				'wc_payments_disputes_hidden_columns',
+				'wc_payments_documents_hidden_columns',
+			]
 		);
 	}
 
@@ -1629,7 +1634,7 @@ class WC_Payments {
 			return;
 		}
 
-		$woopay_direct_checkout = new WC_Payments_WooPay_Direct_Checkout();
+		$woopay_direct_checkout = new WC_Payments_WooPay_Direct_Checkout( self::$woopay_util );
 		$woopay_direct_checkout->init();
 	}
 
@@ -1925,6 +1930,7 @@ class WC_Payments {
 				'wcpay_fraud_protection_welcome_tour_dismissed',
 				'wcpay_capability_request_dismissed_notices',
 				'wcpay_onboarding_eligibility_modal_dismissed',
+				'wcpay_connection_success_modal_dismissed',
 				'wcpay_next_deposit_notice_dismissed',
 				'wcpay_duplicate_payment_method_notices_dismissed',
 				'wcpay_exit_survey_dismissed',
