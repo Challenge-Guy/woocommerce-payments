@@ -88,6 +88,7 @@ You can read our Terms of Service and other policies [here](https://woocommerce.
 == Changelog ==
 
 = 8.9.1 - 2025-02-07 =
+* Fix - Ensures that the tokenised cart for ECE implementation is disabled by default.
 
 
 = 8.9.0 - 2025-02-04 =
