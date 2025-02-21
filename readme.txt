@@ -87,7 +87,8 @@ You can read our Terms of Service and other policies [here](https://woocommerce.
 
 == Changelog ==
 
-= 8.9.2 - 2025-02-19 =
+= 8.9.2 - 2025-02-21 =
+* Fix - Fixed WooPay opt-in race condition
 
 
 = 8.9.1 - 2025-02-07 =
