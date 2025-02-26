@@ -108,6 +108,7 @@ You can read our Terms of Service and other policies [here](https://woocommerce.
 * Fix - fix: attribute selection from PDPs with tokenized ECE
 * Fix - fix: tokenized ECE improvements with WC Deposits, Bookings, Bundles.
 * Fix - Fixed an issue with the copy test card number on Astra theme
+* Fix - Fixes incorrect defined statement for WC_Install::STORE_ID_OPTION constant.
 * Fix - Fixes thrown PHP warning in checkout config.
 * Fix - Fix Stripe KYC flow Woo color
 * Fix - Fix the default value of the FRT advanced options.
