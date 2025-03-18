@@ -104,7 +104,7 @@ const getTapToPayChannel = ( platform: string ) => {
 
 const composePaymentSummaryItems = ( {
 	charge = {} as Charge,
-	metadata = {},
+	metadata = {}, 
 }: {
 	charge: Charge;
 	metadata: Record< string, any >;
