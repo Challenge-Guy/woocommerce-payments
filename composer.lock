@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+    "content-hash": "174fa49bd58709916cfeec7af8456668",
     "packages": [
         {
             "name": "automattic/jetpack-a8c-mc-stats",
@@ -928,16 +929,16 @@
         },
         {
             "name": "woocommerce/subscriptions-core",
-            "version": "8.0.1",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/woocommerce-subscriptions-core.git",
-                "reference": "554c03a5e7591c448d495ee41ee12015f65cad5a"
+                "reference": "e12381a3ac3cde2ad2ff2e762a0e28c3bee02e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/woocommerce-subscriptions-core/zipball/554c03a5e7591c448d495ee41ee12015f65cad5a",
-                "reference": "554c03a5e7591c448d495ee41ee12015f65cad5a",
+                "url": "https://api.github.com/repos/Automattic/woocommerce-subscriptions-core/zipball/e12381a3ac3cde2ad2ff2e762a0e28c3bee02e5c",
+                "reference": "e12381a3ac3cde2ad2ff2e762a0e28c3bee02e5c",
                 "shasum": ""
             },
             "require": {
@@ -978,10 +979,10 @@
             "description": "Sell products and services with recurring payments in your WooCommerce Store.",
             "homepage": "https://github.com/Automattic/woocommerce-subscriptions-core",
             "support": {
-                "source": "https://github.com/Automattic/woocommerce-subscriptions-core/tree/8.0.1",
+                "source": "https://github.com/Automattic/woocommerce-subscriptions-core/tree/8.1.0",
                 "issues": "https://github.com/Automattic/woocommerce-subscriptions-core/issues"
             },
-            "time": "2025-02-13T10:49:47+00:00"
+            "time": "2025-03-24T00:03:20+00:00"
         }
     ],
     "packages-dev": [
