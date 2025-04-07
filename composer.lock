@@ -4,11 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-     "content-hash": "06c6fea7d7fe5163c3d50cc68478c1be",
-     "content-hash": "49017be593268f15f258aac01d32e883",
-
-    "content-hash": "e8d0afd1f8ec68d0717b646d5e88a64f",
-     "packages": [
+    "content-hash": "fd463c29f62852d4d57390c81d46691a",
+    "packages": [
         {
             "name": "automattic/jetpack-a8c-mc-stats",
             "version": "v3.0.4",
@@ -177,16 +174,16 @@
         },
         {
             "name": "automattic/jetpack-autoloader",
-            "version": "v5.0.2",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-autoloader.git",
-                "reference": "495ec34a198ffc160d77e9393a6bdc461c4f06f1"
+                "reference": "5d533e1ff64ed0107b3b46928705fbfa8d3cdb1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/495ec34a198ffc160d77e9393a6bdc461c4f06f1",
-                "reference": "495ec34a198ffc160d77e9393a6bdc461c4f06f1",
+                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/5d533e1ff64ed0107b3b46928705fbfa8d3cdb1b",
+                "reference": "5d533e1ff64ed0107b3b46928705fbfa8d3cdb1b",
                 "shasum": ""
             },
             "require": {
@@ -194,9 +191,10 @@
                 "php": ">=7.2"
             },
             "require-dev": {
-                "automattic/jetpack-changelogger": "^6.0.0",
+                "automattic/jetpack-changelogger": "^6.0.3",
+                "automattic/phpunit-select-config": "^1.0.2",
                 "composer/composer": "^2.2",
-                "yoast/phpunit-polyfills": "^1.1.1"
+                "yoast/phpunit-polyfills": "^3.0.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -235,9 +233,9 @@
                 "wordpress"
             ],
             "support": {
-                "source": "https://github.com/Automattic/jetpack-autoloader/tree/v5.0.2"
+                "source": "https://github.com/Automattic/jetpack-autoloader/tree/v5.0.6"
             },
-            "time": "2025-02-24T17:06:04+00:00"
+            "time": "2025-03-31T17:43:05+00:00"
         },
         {
             "name": "automattic/jetpack-config",
