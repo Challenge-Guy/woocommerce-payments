@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "@automattic/interpolate-components": "1.2.1",
-    "@fingerprintjs/fingerprintjs": "3.4.1",
+    "@fingerprintjs/fingerprintjs": "4.6.1",
     "@stripe/connect-js": "3.3.16",
     "@stripe/react-connect-js": "3.3.21",
     "@stripe/react-stripe-js": "2.5.1",
