@@ -24,7 +24,7 @@
         "ext-json": "*",
         "automattic/jetpack-connection": "6.9.0",
         "automattic/jetpack-config": "3.0.1",
-        "automattic/jetpack-autoloader": "5.0.2",
+        "automattic/jetpack-autoloader": "5.0.6",
         "automattic/jetpack-sync": "4.8.3",
         "woocommerce/subscriptions-core": "8.1.1"
     },
