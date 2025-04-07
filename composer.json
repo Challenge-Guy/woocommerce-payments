@@ -38,7 +38,7 @@
         "woocommerce/action-scheduler": "3.9.2",
         "kalessil/production-dependencies-guard": "dev-master",
         "vimeo/psalm": "4.13.1",
-        "php-stubs/wordpress-stubs": "5.9.6",
+        "php-stubs/wordpress-stubs": "6.7.2",
         "php-stubs/woocommerce-stubs": "9.7.0",
         "rregeer/phpunit-coverage-check": "0.3.1",
         "yoast/phpunit-polyfills": "4.0.0",
