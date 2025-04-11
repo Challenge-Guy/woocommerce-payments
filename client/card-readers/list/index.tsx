@@ -20,13 +20,13 @@ const ReadersListDescription = () => (
 		<h2>{ __( 'Connected card readers', 'woocommerce-payments' ) }</h2>
 		<p>
 			{ sprintf(
-				/* translators: %s: WooPayments */
+				/* translators: %s: WooPayments */  
 				__(
-					'Card readers are marked as active if they’ve processed one or more transactions during the current billing cycle. ' +
-						'To connect or disconnect card readers, use the %s mobile application.',
-					'woocommerce-payments'
+					'Card readers are marked as active if they’ve processed one or more transactions during the current billing cycle. ' +  
+						'To connect or disconnect card readers, use the %s mobile application.',  
+					'woocommerce-payments'  
 				),
-				'WooPayments'
+				'WooPayments'  
 			) }
 		</p>
 	</>
@@ -47,9 +47,9 @@ const ReadersList = (): JSX.Element => {
 							<div className="card-readers-list__header-model">
 								{ __( 'Model', 'woocommerce-payments' ) }
 							</div>
-							<div className="card-readers-list__header-status">
-								{ __( 'Status', 'woocommerce-payments' ) }
-							</div>
+							<div className="card-readers-list__header-status">  
+								{ __( 'Status', 'woocommerce-payments' ) }   
+							</div>  
 						</CardBody>
 						<CardDivider />
 						<CardBody className="card-readers-list__body">
@@ -59,8 +59,8 @@ const ReadersList = (): JSX.Element => {
 										readers
 									).map( ( [ index, reader ] ) => (
 										<CardReaderListItem
-											key={ index }
-											reader={ reader }
+											key={ index }  
+											reader={ reader }  
 										/>
 									) ) }
 							</ul>
