@@ -28,11 +28,11 @@ const OnboardingLocationCheckModal = ( {
 	onConfirmed,
 } ) => {
 	// Declare state attributes
-	const [ isModalOpen, setModalOpen ] = useState( true );
-	const [ isProcessingContinue, setProcessingContinue ] = useState( false );
-	if ( ! isModalOpen ) {
-		return null;
-	}
+	const [ isModalOpen, setModalOpen ] = useState( true );  
+	const [ isProcessingContinue, setProcessingContinue ] = useState( false );  
+	if ( ! isModalOpen ) {  
+		return null;  
+	}  
 
 	// Declare hooks to handle button clicks
 	const handleConfirmedRequest = () => {
@@ -50,13 +50,13 @@ const OnboardingLocationCheckModal = ( {
 		mixedString: sprintf(
 			/* translators: %1$s: WooPayments */
 			__(
-				"It appears you're attempting to set up %1$s from an unsupported country. " +
-					'In order to complete the set up of %1$s, your store is required to have a business ' +
-					'entity in one of the following countries: {{list /}} ' +
-					'{{link}}Learn more{{/link}} about setting up business entities in foreign countries.',
-				'woocommerce-payments'
+				"It appears you're attempting to set up %1$s from an unsupported country. " +  
+					'In order to complete the set up of %1$s, your store is required to have a business ' +  
+					'entity in one of the following countries: {{list /}} ' +  
+					'{{link}}Learn more{{/link}} about setting up business entities in foreign countries.',  
+				'woocommerce-payments'  
 			),
-			'WooPayments'
+			'WooPayments'  
 		),
 		components: {
 			link: <LearnMoreLink />,
