@@ -93,7 +93,7 @@
   },
   "devDependencies": {
     "@automattic/color-studio": "4.0.0",
-    "@jest/test-sequencer": "29.5.0",
+    "@jest/test-sequencer": "29.7.0",
     "@playwright/test": "1.50.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.7",
     "@slack/web-api": "7.9.1",
