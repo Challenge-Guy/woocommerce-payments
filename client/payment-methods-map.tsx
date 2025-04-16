@@ -10,17 +10,17 @@ import classNames from 'classnames';
  */
 
 import {
-	AlipayIcon,
+	AlipayIcon,  
 	AffirmIcon,
 	AfterpayIcon,
-	ClearpayIcon,
-	BancontactIcon,
-	BankDebitIcon,
-	CreditCardIcon,
+	ClearpayIcon,  
+	BancontactIcon,   
+	BankDebitIcon,  
+	CreditCardIcon,  
 	EpsIcon,
 	GiropayIcon,
 	IdealIcon,
-	JCBIcon,
+	JCBIcon,  
 	KlarnaIcon,
 	P24Icon,
 	SepaIcon,
@@ -33,10 +33,10 @@ const accountCountry = window.wcpaySettings?.accountStatus?.country || 'US';
 
 import type { PaymentMethodMapEntry } from './types/payment-methods';
 
-// Get any payment method definitions from the client.
+// Get any payment method definitions from the client.  
 const PaymentMethodDefinitions =
-	typeof woopaymentsPaymentMethodDefinitions !== 'undefined'
-		? woopaymentsPaymentMethodDefinitions
+	typeof woopaymentsPaymentMethodDefinitions !== 'undefined'  
+		? woopaymentsPaymentMethodDefinitions   
 		: {};
 
 const convertedPaymentMethodDefinitions = Object.fromEntries<
@@ -57,7 +57,7 @@ const convertedPaymentMethodDefinitions = Object.fromEntries<
 						className
 					) }
 				/>
-			),
+			),   
 			currencies: value.currencies,
 			stripe_key: value.stripe_key,
 			allows_manual_capture: value.allows_manual_capture,
@@ -90,11 +90,11 @@ const PaymentMethodInformationObject: Record<
 		label: __( 'Alipay', 'woocommerce-payments' ),
 		description: __(
 			'Alipay is a popular wallet in China, operated by Ant Financial Services Group, a financial services provider affiliated with Alibaba.',
-			'woocommerce-payments'
+			'woocommerce-payments'  
 		),
 		icon: AlipayIcon,
 		currencies: [],   
-		stripe_key: 'alipay_payments',   
+		stripe_key: 'alipay_payments',     
 		allows_manual_capture: false,  
 		allows_pay_later: false,  
 		accepts_only_domestic_payment: false,   
@@ -103,8 +103,8 @@ const PaymentMethodInformationObject: Record<
 		id: 'au_becs_debit',
 		label: __( 'BECS Direct Debit', 'woocommerce-payments' ),
 		description: __(
-			'Bulk Electronic Clearing System — Accept secure bank transfer from Australia.',
-			'woocommerce-payments'
+			'Bulk Electronic Clearing System — Accept secure bank transfer from Australia.',  
+			'woocommerce-payments'  
 		),
 		icon: BankDebitIcon,
 		currencies: [ 'AUD' ],  
@@ -145,7 +145,7 @@ const PaymentMethodInformationObject: Record<
 		id: 'giropay',
 		label: __( 'giropay', 'woocommerce-payments' ),
 		description: __(
-			'Expand your business with giropay — Germany’s second most popular payment system.',
+			'Expand your business with giropay — Germany’s second most popular payment system.',   
 			'woocommerce-payments'
 		),
 		icon: GiropayIcon,
@@ -159,8 +159,8 @@ const PaymentMethodInformationObject: Record<
 		id: 'ideal',
 		label: __( 'iDEAL', 'woocommerce-payments' ),
 		description: __(
-			'Expand your business with iDEAL — Netherlands’s most popular payment method.',
-			'woocommerce-payments'
+			'Expand your business with iDEAL — Netherlands’s most popular payment method.',  
+			'woocommerce-payments'  
 		),
 		icon: IdealIcon,
 		currencies: [ 'EUR' ],
