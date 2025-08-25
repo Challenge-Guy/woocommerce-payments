@@ -96,7 +96,7 @@
     "@jest/test-sequencer": "29.7.0",
     "@playwright/test": "1.50.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.7",
-    "@slack/web-api": "7.9.1",
+    "@slack/web-api": "7.10.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "11.2.5",
     "@testing-library/react-hooks": "8.0.1",
